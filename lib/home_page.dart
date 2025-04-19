@@ -169,100 +169,131 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(height: 12),
 
           //Products
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Row(
-                  children: List.generate(products.length, (index) {
-                return ProductItem(
-                  icon: isSelected(products[index])
-                      ? Icon(Icons.close)
-                      : Icon(Icons.add),
-                  product: products[index],
-                  onTap: () => toggleSelection(products[index]),
-                );
-              })),
-            ),
-          )
+          ProductsView()
 
           // cart widget
           ,
-          Spacer(),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 13),
-            child: Container(
-              width: double.infinity,
-              height: 77,
-              decoration: BoxDecoration(
+          const Spacer(),
+          CartView(),
+          const SizedBox(height: 10)
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        iconSize: 30,
+        items: const [
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home,
                 color: kColor,
-                borderRadius: BorderRadius.circular(7),
               ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: 217,
-                      child: ListView.builder(
-                        itemCount: basketList.length,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.only(left: 4.0),
-                            child: Container(
-                              width: 50,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                shape: BoxShape.circle,
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: Image.asset(
-                                  'assets/fruits/${basketList[index].name[0].toLowerCase()}${basketList[index].name.substring(1)}.png',
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    Spacer(),
-                    Container(
-                      width: 2,
-                      height: 40,
-                      color: Colors.white,
-                    ),
-                    SizedBox(width: 10),
-                    Text(
-                      'View Basket',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 17),
-                    ),
-                    SizedBox(width: 10),
-                    Badge(
-                      backgroundColor: Colors.red,
-                      label: Text(
-                        '${basketList.length}',
-                        style: TextStyle(fontSize: 12),
-                      ),
-                      child: SvgPicture.asset(
-                        'assets/icons/Vector.svg',
-                        color: Colors.white,
-                      ),
-                    ),
-                    SizedBox(width: 10)
-                  ],
-                ),
-              ),
-            ),
+              label: 'Home'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search, color: kColor),
+            label: 'Search',
           ),
-          SizedBox(height: 60),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart, color: kColor),
+            label: 'Cart',
+          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.menu, color: kColor),
+          //   label: 'Menu',
+          // ),
         ],
       ),
     );
+  }
+
+  Padding CartView() {
+    return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 13),
+          child: Container(
+            width: double.infinity,
+            height: 77,
+            decoration: BoxDecoration(
+              color: kColor,
+              borderRadius: BorderRadius.circular(7),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 217,
+                    child: ListView.builder(
+                      itemCount: basketList.length,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(left: 4.0),
+                          child: Container(
+                            width: 50,
+                            height: 50,
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Image.asset(
+                                'assets/fruits/${basketList[index].name[0].toLowerCase()}${basketList[index].name.substring(1)}.png',
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  const Spacer(),
+                  Container(
+                    width: 2,
+                    height: 40,
+                    color: Colors.white,
+                  ),
+                  const SizedBox(width: 10),
+                  const Text(
+                    'View Basket',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 17),
+                  ),
+                  const SizedBox(width: 10),
+                  Badge(
+                    backgroundColor: Colors.red,
+                    label: Text(
+                      '${basketList.length}',
+                      style: const TextStyle(fontSize: 12),
+                    ),
+                    child: SvgPicture.asset(
+                      'assets/icons/Vector.svg',
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(width: 10)
+                ],
+              ),
+            ),
+          ),
+        );
+  }
+
+  SingleChildScrollView ProductsView() {
+    return SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Row(
+                children: List.generate(products.length, (index) {
+              return ProductItem(
+                icon: isSelected(products[index])
+                    ? const Icon(Icons.close)
+                    : const Icon(Icons.add),
+                product: products[index],
+                onTap: () => toggleSelection(products[index]),
+              );
+            })),
+          ),
+        );
   }
 }
